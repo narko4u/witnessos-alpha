@@ -12,9 +12,8 @@
       --border: #1e1e2a;
       --text: #e4e4ed;
       --text-muted: #8888a0;
-      --accent: #6c5ce7;
-      --accent-glow: rgba(108, 92, 231, 0.15);
-      --green: #00d68f;
+      --accent: #ffffff;
+      --accent-glow: rgba(255, 255, 255, 0.08);
       --radius: 12px;
     }
 
@@ -52,7 +51,7 @@
       text-transform: uppercase;
       background: var(--accent-glow);
       color: var(--accent);
-      border: 1px solid rgba(108, 92, 231, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       margin-bottom: 24px;
     }
 
@@ -72,20 +71,20 @@
     }
 
     .heading-logo-img {
-      width: 140px;
-      height: 140px;
-      border-radius: 22px;
-      box-shadow: 0 0 40px rgba(108, 92, 231, 0.25);
+      width: 280px;
+      height: 280px;
+      border-radius: 32px;
+      box-shadow: 0 0 50px rgba(255, 255, 255, 0.12);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .heading-logo-img:hover {
       transform: scale(1.05);
-      box-shadow: 0 0 60px rgba(108, 92, 231, 0.4);
+      box-shadow: 0 0 70px rgba(255, 255, 255, 0.2);
     }
 
     @media (max-width: 480px) {
-      .heading-logo-img { width: 110px; height: 110px; }
+      .heading-logo-img { width: 180px; height: 180px; }
     }
 
     .subtitle {
@@ -125,7 +124,7 @@
     }
 
     .status-card .value.alpha { color: var(--accent); }
-    .status-card .value.private { color: #fdcb6e; }
+    .status-card .value.private { color: var(--accent); }
 
     /* Message */
     .message-box {
@@ -201,9 +200,9 @@
     button {
       width: 100%;
       padding: 14px 24px;
-      background: var(--accent);
-      color: white;
-      border: none;
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid rgba(255, 255, 255, 0.25);
       border-radius: 8px;
       font-size: 16px;
       font-weight: 600;
@@ -213,7 +212,8 @@
     }
 
     button:hover {
-      background: #7c6df7;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.5);
       transform: translateY(-1px);
     }
 
@@ -230,7 +230,7 @@
     .success-state {
       display: none;
       background: var(--surface);
-      border: 1px solid rgba(0, 214, 143, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.15);
       border-radius: var(--radius);
       padding: 40px 28px;
       text-align: center;
@@ -314,7 +314,7 @@
       </div>
       <div class="status-card">
         <div class="label">Waitlist</div>
-        <div class="value" style="color: var(--green);" id="waitlist-count">Open</div>
+        <div class="value" id="waitlist-count">Open</div>
       </div>
     </div>
 
