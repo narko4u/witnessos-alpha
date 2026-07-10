@@ -37,31 +37,11 @@
       padding: 40px 24px;
     }
 
-    /* Logo */
-    .logo-container {
-      text-align: center;
-      margin-bottom: 32px;
-      padding: 20px 0;
-    }
-
-    .logo {
-      width: 240px;
-      height: 240px;
-      border-radius: 32px;
-      box-shadow: 0 0 60px rgba(108, 92, 231, 0.25);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .logo:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 80px rgba(108, 92, 231, 0.4);
-    }
-
-    @media (max-width: 480px) {
-      .logo { width: 160px; height: 160px; }
-    }
-
     /* Hero */
+    .hero {
+      text-align: center;
+    }
+
     .badge {
       display: inline-block;
       padding: 4px 14px;
@@ -76,11 +56,6 @@
       margin-bottom: 24px;
     }
 
-    /* Center hero elements */
-    .hero {
-      text-align: center;
-    }
-
     h1 {
       font-size: 36px;
       font-weight: 700;
@@ -90,11 +65,27 @@
       text-align: center;
     }
 
-    h1 .highlight {
-      background: linear-gradient(135deg, var(--accent), #a29bfe);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    /* Heading logo replaces the old purple WitnessOS text */
+    .heading-logo {
+      text-align: center;
+      margin: 8px 0 20px 0;
+    }
+
+    .heading-logo-img {
+      width: 140px;
+      height: 140px;
+      border-radius: 22px;
+      box-shadow: 0 0 40px rgba(108, 92, 231, 0.25);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .heading-logo-img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 60px rgba(108, 92, 231, 0.4);
+    }
+
+    @media (max-width: 480px) {
+      .heading-logo-img { width: 110px; height: 110px; }
     }
 
     .subtitle {
@@ -133,13 +124,8 @@
       font-weight: 600;
     }
 
-    .status-card .value.alpha {
-      color: var(--accent);
-    }
-
-    .status-card .value.private {
-      color: #fdcb6e;
-    }
+    .status-card .value.alpha { color: var(--accent); }
+    .status-card .value.private { color: #fdcb6e; }
 
     /* Message */
     .message-box {
@@ -157,13 +143,8 @@
       margin-bottom: 12px;
     }
 
-    .message-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    .message-box strong {
-      color: var(--text);
-    }
+    .message-box p:last-child { margin-bottom: 0; }
+    .message-box strong { color: var(--text); }
 
     /* Divider */
     .divider {
@@ -185,9 +166,7 @@
       margin-bottom: 24px;
     }
 
-    .form-group {
-      margin-bottom: 16px;
-    }
+    .form-group { margin-bottom: 16px; }
 
     label {
       display: block;
@@ -214,18 +193,10 @@
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
 
-    input::placeholder {
-      color: #555;
-    }
+    input::placeholder { color: #555; }
 
-    .form-row {
-      display: flex;
-      gap: 12px;
-    }
-
-    .form-row .form-group {
-      flex: 1;
-    }
+    .form-row { display: flex; gap: 12px; }
+    .form-row .form-group { flex: 1; }
 
     button {
       width: 100%;
@@ -246,9 +217,7 @@
       transform: translateY(-1px);
     }
 
-    button:active {
-      transform: translateY(0);
-    }
+    button:active { transform: translateY(0); }
 
     .form-footer {
       text-align: center;
@@ -267,20 +236,9 @@
       text-align: center;
     }
 
-    .success-state .check {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .success-state h3 {
-      font-size: 22px;
-      margin-bottom: 8px;
-    }
-
-    .success-state p {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
+    .success-state .check { font-size: 48px; margin-bottom: 16px; }
+    .success-state h3 { font-size: 22px; margin-bottom: 8px; }
+    .success-state p { color: var(--text-muted); font-size: 15px; }
 
     /* Footer */
     .footer {
@@ -297,14 +255,8 @@
       transition: color 0.2s;
     }
 
-    .footer a:hover {
-      color: var(--text);
-    }
-
-    .footer .sep {
-      color: var(--border);
-      margin: 0 12px;
-    }
+    .footer a:hover { color: var(--text); }
+    .footer .sep { color: var(--border); margin: 0 12px; }
 
     /* Responsive */
     @media (max-width: 480px) {
@@ -335,16 +287,14 @@
 <body>
   <div class="container">
     <div class="hero">
-    <!-- Logo -->
-    <div class="logo-container">
-      <img src="witnessos-logo.png" alt="WitnessOS" class="logo">
-    </div>
-
     <!-- Badge -->
     <div class="badge">Alpha — 2026</div>
 
     <!-- Hero -->
-    <h1>Thank you for your interest in<br><span class="highlight">WitnessOS</span></h1>
+    <h1>Thank you for your interest in</h1>
+    <div class="heading-logo">
+      <img src="witnessos-logo.png" alt="WitnessOS" class="heading-logo-img">
+    </div>
     <p class="subtitle">
       The runtime governance layer for autonomous AI agents — 
       policy enforcement, Merkle-chain audit trails, and 
