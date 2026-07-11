@@ -370,13 +370,44 @@ footer {
 </style>
 </head>
 <body>
+<script>
+(function(){
+  var PW_HASH="441d531a31ef3c78cf4daa6541acc0ab9d414cfba476674d579df8493d9861db";
+  function sha256(str){
+    return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(function(h){
+      return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    });
+  }
+  if(!sessionStorage.getItem('wos_auth')){
+    var d=document.createElement('div');
+    d.id='pw-gate';
+    d.innerHTML='<style>#pw-gate{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:#0d1117;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif}#pw-gate .card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:48px 40px 40px;max-width:400px;width:90%;text-align:center}#pw-gate .lock{font-size:3rem;margin-bottom:12px}#pw-gate h1{color:#e6edf3;font-size:1.4rem;font-weight:400;margin:0 0 4px}#pw-gate .sub{font-size:.85rem;color:#8b949e;margin:0 0 28px;line-height:1.5}#pw-gate form{display:flex;flex-direction:column;gap:12px}#pw-gate input{padding:14px 16px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#e6edf3;font-size:.95rem;outline:none}#pw-gate input:focus{border-color:#6e62ff}#pw-gate button{padding:14px 24px;border-radius:8px;border:none;background:#6e62ff;color:#fff;font-size:.95rem;font-weight:600;cursor:pointer}#pw-gate button:hover{background:#5a50e0}#pw-gate .error{color:#f85149;font-size:.82rem;margin-top:8px}#pw-gate .footer{font-size:.72rem;color:#484f58;margin-top:24px}#pw-gate .hidden{display:none}</style><div class="card"><div class="lock">🔒</div><h1>WitnessOS</h1><p class="sub">Exclusive investor presentation<br>Enter the password to continue.</p><form onsubmit="return false"><input type="password" id="pw-input" placeholder="Password" autofocus><button id="pw-submit">View Presentation</button><p class="error hidden" id="pw-error">Incorrect password.</p></form><p class="footer">Empire Labs Pty Ltd &middot; Patent Pending</p></div>';
+    document.body.appendChild(d);
+    document.getElementById('pw-submit').addEventListener('click',function(){
+      var pwd=document.getElementById('pw-input').value;
+      sha256(pwd).then(function(h){
+        if(h===PW_HASH){
+          sessionStorage.setItem('wos_auth','1');
+          document.getElementById('pw-gate').style.display='none';
+        }else{
+          document.getElementById('pw-error').classList.remove('hidden');
+        }
+      });
+    });
+    document.getElementById('pw-input').addEventListener('keydown',function(e){
+      if(e.key==='Enter') document.getElementById('pw-submit').click();
+    });
+    setTimeout(function(){document.getElementById('pw-input').focus();},100);
+  }
+})();
+</script>
 
 <!-- Nav -->
 <nav>
   <div class="container">
     <div class="nav-brand"><span class="sq">■</span> WitnessOS</div>
     <div class="nav-links">
-      <a href="WITNESSOS-LANDING-PAGE.html" class="active">Landing Page</a>
+      <a href="./" class="active">Landing Page</a>
       <a href="WITNESSOS-INVESTMENT-PACKAGE.html">Investment Package</a>
       <a href="WITNESSOS-MASTER-ROADMAP.html">Master Roadmap</a>
     </div>

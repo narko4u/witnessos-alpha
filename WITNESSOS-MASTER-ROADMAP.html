@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WitnessOS — Master Roadmap & Investor Narrative</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;500;600&family=Source+Code+Pro:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-body: #0d1117;
+  --bg-card: #161b22;
+  --bg-section-alt: #161b22;
+  --bg-dark-section: #1c1e54;
+  --text-heading: #e6edf3;
+  --text-body: #8b949e;
+  --text-label: #8b949e;
+  --color-primary: #6e62ff;
+  --color-primary-hover: #5a4ee8;
+  --border-color: #30363d;
+  --shadow-card: rgba(0,0,0,0.4) 0px 30px 45px -30px, rgba(0,0,0,0.2) 0px 18px 36px -18px;
+  --nav-bg: rgba(13,17,23,0.92);
+  --nav-border: #30363d;
+  --color-success: #34d399;
+  --color-warn: #fbbf24;
+  --badge-bg: rgba(110,98,255,0.15);
+  --badge-text: #6e62ff;
+  --inline-code-bg: #1a1f29;
+  --inline-code-text: #e6edf3;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; zoom: 1.25; }
+body {
+  font-family: 'Source Sans 3', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg-body);
+  color: var(--text-body);
+  font-weight: 300;
+  line-height: 1.6;
+}
+.display-hero { font-size: 3.5rem; font-weight: 300; line-height: 1.03; letter-spacing: -1.4px; color: var(--text-heading); }
+.display-large { font-size: 3rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.96px; color: var(--text-heading); }
+.section-heading { font-size: 2rem; font-weight: 300; line-height: 1.10; letter-spacing: -0.6px; color: var(--text-heading); }
+.sub-heading { font-size: 1.5rem; font-weight: 300; line-height: 1.15; letter-spacing: -0.3px; color: var(--text-heading); }
+.body-large { font-size: 1.125rem; font-weight: 300; line-height: 1.45; color: var(--text-body); }
+.body-text { font-size: 1rem; font-weight: 300; line-height: 1.55; color: var(--text-body); }
+.code-label { font-family: 'Source Code Pro', ui-monospace; font-size: 0.75rem; font-weight: 500; line-height: 2.00; text-transform: uppercase; letter-spacing: 0.02em; }
+a { color: var(--color-primary); text-decoration: none; font-weight: 400; transition: color 0.15s; }
+a:hover { color: var(--color-primary-hover); }
+.container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--nav-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--nav-border);
+}
+.nav-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  height: 58px; max-width: 1080px; margin: 0 auto; padding: 0 24px;
+}
+.nav-logo { display: flex; align-items: center; gap: 6px; font-size: 0.875rem; font-weight: 400; color: var(--text-heading); }
+.nav-logo span { color: var(--color-primary); font-size: 1rem; }
+.nav-links { display: flex; align-items: center; gap: 4px; }
+.nav-links a {
+  font-size: 0.75rem; font-weight: 400; color: var(--text-body); transition: all 0.15s;
+  padding: 6px 12px; border-radius: 4px; text-decoration: none;
+}
+.nav-links a:hover { color: var(--text-heading); background: rgba(110,98,255,0.08); }
+.nav-links a.active { color: var(--color-primary); font-weight: 500; background: rgba(110,98,255,0.1); }
+@media (max-width: 768px) { .nav-links { gap: 2px; } .nav-links a { font-size: 0.65rem; padding: 4px 8px; } .display-hero { font-size: 2.2rem; } .display-large { font-size: 2rem; } .section-heading { font-size: 1.5rem; } }
+
+.section-anchors {
+  display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;
+  padding: 12px 24px; border-bottom: 1px solid var(--border-color);
+  background: rgba(13,17,23,0.6);
+}
+.section-anchors a {
+  font-size: 0.7rem; font-weight: 400; color: var(--text-body); text-decoration: none;
+  padding: 4px 10px; border-radius: 3px; transition: all 0.15s;
+}
+.section-anchors a:hover { color: var(--color-primary); background: rgba(110,98,255,0.08); }
+
+section { padding: 48px 0; }
+section.alt-bg { background: var(--bg-section-alt); }
+.badge {
+  display: inline-block; padding: 4px 14px; background: var(--badge-bg); color: var(--badge-text);
+  border-radius: 4px; font-size: 0.7rem; font-weight: 400;
+  text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 16px;
+}
+.badge-success { background: rgba(52,211,153,0.12); color: var(--color-success); }
+table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 0.875rem; }
+th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border-color); vertical-align: top; }
+th { background: var(--bg-card); color: var(--text-heading); font-weight: 400; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.03em; }
+td { color: var(--text-body); font-weight: 300; }
+tr:hover td { background: rgba(22,27,34,0.6); }
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-top: 16px; }
+.card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: var(--shadow-card); }
+.card h4 { font-size: 0.9375rem; font-weight: 400; color: var(--text-heading); margin-bottom: 4px; }
+.card p { font-size: 0.8125rem; font-weight: 300; color: var(--text-body); line-height: 1.4; }
+.card .stat { font-size: 2rem; font-weight: 300; color: var(--color-primary); letter-spacing: -0.8px; margin-bottom: 2px; }
+.card .stat-label { font-size: 0.75rem; font-weight: 300; color: var(--text-body); }
+.card.alt-accent { border-left: 3px solid var(--color-primary); }
+
+.econ-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 16px; }
+.econ-card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 16px; text-align: center; }
+.econ-card .year { font-size: 0.7rem; font-family: 'Source Code Pro', monospace; color: var(--color-primary); font-weight: 400; }
+.econ-card .revenue { font-size: 1.5rem; font-weight: 300; color: var(--text-heading); margin: 4px 0; }
+.econ-card .desc { font-size: 0.7rem; color: var(--text-body); line-height: 1.3; }
+
+.moat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; margin-top: 16px; }
+.moat-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 6px; padding: 18px; }
+.moat-item .moat-layer { font-size: 0.65rem; font-family: 'Source Code Pro', monospace; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 4px; }
+.moat-item h4 { font-size: 0.9375rem; font-weight: 400; color: var(--text-heading); margin-bottom: 4px; }
+.moat-item p { font-size: 0.8125rem; color: var(--text-body); line-height: 1.4; }
+
+.vision-stage { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; margin-top: 16px; border-left: 3px solid var(--color-primary); }
+.vision-stage h4 { font-size: 1rem; font-weight: 400; color: var(--text-heading); margin-bottom: 4px; }
+.vision-stage .stage-label { font-family: 'Source Code Pro', monospace; font-size: 0.65rem; color: var(--color-primary); font-weight: 400; }
+.hero-quote { font-size: 1.25rem; font-weight: 300; line-height: 1.2; color: var(--text-heading); border-left: 3px solid var(--color-primary); padding: 12px 0 12px 20px; margin: 20px 0; }
+.hero-quote .attribution { font-size: 0.8125rem; color: var(--text-body); margin-top: 6px; display: block; }
+
+.ask-bars { margin: 16px 0; }
+.ask-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+.ask-label { width: 160px; font-size: 0.8125rem; color: var(--text-body); flex-shrink: 0; }
+.ask-track { flex: 1; height: 18px; background: var(--bg-card); border-radius: 3px; overflow: hidden; }
+.ask-fill { height: 100%; border-radius: 3px; min-width: 2%; background: var(--color-primary); }
+.ask-fill.s1 { width: 37.5%; } .ask-fill.s2 { width: 20.8%; } .ask-fill.s3 { width: 16.7%; } .ask-fill.s4 { width: 16.7%; } .ask-fill.s5 { width: 8.3%; }
+.ask-amount { width: 60px; font-size: 0.8125rem; color: var(--text-heading); text-align: right; flex-shrink: 0; }
+
+.metric-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--border-color); font-size: 0.875rem; }
+.metric-row:last-child { border-bottom: none; }
+
+.mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; } .mt-32 { margin-top: 32px; }
+
+ul { list-style: none; padding: 0; margin: 12px 0; }
+li { font-size: 0.9375rem; font-weight: 300; color: var(--text-body); line-height: 1.5; margin-bottom: 6px; padding-left: 18px; position: relative; }
+li strong { color: var(--text-heading); font-weight: 400; }
+
+hr { border: none; border-top: 1px solid var(--border-color); margin: 40px 0; }
+
+footer { padding: 36px 0; border-top: 1px solid var(--border-color); }
+.footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 32px; }
+.footer-brand span { font-size: 1.25rem; color: var(--color-primary); font-weight: 300; }
+.footer-brand p { font-size: 0.75rem; font-weight: 300; color: var(--text-body); margin-top: 6px; max-width: 240px; }
+.footer-col h4 { font-size: 0.75rem; font-weight: 400; color: var(--text-heading); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.footer-col a { display: block; font-size: 0.8125rem; font-weight: 300; color: var(--text-body); margin-bottom: 6px; transition: color 0.15s; }
+.footer-col a:hover { color: var(--color-primary); }
+@media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; gap: 20px; } .econ-grid { grid-template-columns: 1fr 1fr; } }
+.patent { padding: 14px 0; border-top: 1px solid var(--border-color); }
+.patent p { font-size: 0.7rem; font-weight: 300; color: var(--text-body); text-align: center; }
+</style>
+</head>
+<body>
+<script>
+(function(){
+  var PW_HASH="441d531a31ef3c78cf4daa6541acc0ab9d414cfba476674d579df8493d9861db";
+  function sha256(str){
+    return crypto.subtle.digest('SHA-256',new TextEncoder().encode(str)).then(function(h){
+      return Array.from(new Uint8Array(h)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+    });
+  }
+  if(!sessionStorage.getItem('wos_auth')){
+    var d=document.createElement('div');
+    d.id='pw-gate';
+    d.innerHTML='<style>#pw-gate{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:#0d1117;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif}#pw-gate .card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:48px 40px 40px;max-width:400px;width:90%;text-align:center}#pw-gate .lock{font-size:3rem;margin-bottom:12px}#pw-gate h1{color:#e6edf3;font-size:1.4rem;font-weight:400;margin:0 0 4px}#pw-gate .sub{font-size:.85rem;color:#8b949e;margin:0 0 28px;line-height:1.5}#pw-gate form{display:flex;flex-direction:column;gap:12px}#pw-gate input{padding:14px 16px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#e6edf3;font-size:.95rem;outline:none}#pw-gate input:focus{border-color:#6e62ff}#pw-gate button{padding:14px 24px;border-radius:8px;border:none;background:#6e62ff;color:#fff;font-size:.95rem;font-weight:600;cursor:pointer}#pw-gate button:hover{background:#5a50e0}#pw-gate .error{color:#f85149;font-size:.82rem;margin-top:8px}#pw-gate .footer{font-size:.72rem;color:#484f58;margin-top:24px}#pw-gate .hidden{display:none}</style><div class="card"><div class="lock">🔒</div><h1>WitnessOS</h1><p class="sub">Exclusive investor presentation<br>Enter the password to continue.</p><form onsubmit="return false"><input type="password" id="pw-input" placeholder="Password" autofocus><button id="pw-submit">View Presentation</button><p class="error hidden" id="pw-error">Incorrect password.</p></form><p class="footer">Empire Labs Pty Ltd &middot; Patent Pending</p></div>';
+    document.body.appendChild(d);
+    document.getElementById('pw-submit').addEventListener('click',function(){
+      var pwd=document.getElementById('pw-input').value;
+      sha256(pwd).then(function(h){
+        if(h===PW_HASH){
+          sessionStorage.setItem('wos_auth','1');
+          document.getElementById('pw-gate').style.display='none';
+        }else{
+          document.getElementById('pw-error').classList.remove('hidden');
+        }
+      });
+    });
+    document.getElementById('pw-input').addEventListener('keydown',function(e){
+      if(e.key==='Enter') document.getElementById('pw-submit').click();
+    });
+    setTimeout(function(){document.getElementById('pw-input').focus();},100);
+  }
+})();
+</script>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo"><span>■</span> WitnessOS</div>
+    <div class="nav-links">
+      <a href="WITNESSOS-LANDING-PAGE.html">Landing Page</a>
+      <a href="WITNESSOS-INVESTMENT-PACKAGE.html">Investment Package</a>
+      <a href="WITNESSOS-MASTER-ROADMAP.html" class="active">Master Roadmap</a>
+    </div>
+  </div>
+</nav>
+
+<div class="section-anchors">
+  <a href="#foundation">Foundation</a>
+  <a href="#traction">Traction</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#vision">Vision</a>
+  <a href="#ask">Ask</a>
+</div>
+
+<!-- HERO -->
+<section style="padding:72px 0 40px;text-align:center;">
+  <div class="container">
+    <img src="witnessos-logo.png" alt="WitnessOS" style="height:120px;width:auto;object-fit:contain;margin-bottom:16px;">
+    <div class="badge">Master Roadmap &mdash; July 2026</div>
+    <h1 class="display-hero">WitnessOS</h1>
+    <p class="body-large mt-8" style="max-width:560px;margin:0 auto;">A runtime governance layer for every autonomous agent, on every machine, worldwide.</p>
+    <p class="body-text mt-16" style="color:var(--text-label);font-size:0.875rem;">Built by Empire Labs Pty Ltd &middot; Townsville, QLD &middot; AU 2026906017</p>
+  </div>
+</section>
+
+<!-- EXECUTIVE SUMMARY -->
+<section class="alt-bg" id="foundation">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary);">Executive Summary</span>
+    <h2 class="section-heading mt-8">From Concept to Infrastructure</h2>
+    <p class="body-text mt-16">WitnessOS has moved from concept to working infrastructure in under 12 months. A 25-module engine is built, patented, capital-efficient, and ready for market. This document is the complete picture &mdash; what we've built, the results we've generated, and the staged roadmap to put WitnessOS on every PC in the world as the universal observer of Agent-to-Agent transactions.</p>
+    <div class="hero-quote">The category is new. The timing is now. The foundation is complete.</div>
+
+    <h3 class="sub-heading mt-32">1.1 The Engine — 25 Modules, 9 Namespaces</h3>
+    <p class="body-text mt-8">The WitnessOS gateway is a modular FastAPI engine with 25 modules across 9 namespaces:</p>
+    <table>
+      <tr><th>Namespace</th><th>Modules</th><th>Purpose</th></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">net/</td><td>DNS resolver, HTTP client, TCP monitor, network probe</td><td>Network connectivity and service discovery</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">sys/</td><td>Process monitor, disk monitor, system info</td><td>Host-level system observability</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">sec/</td><td>Policy engine, credential vault, audit trail, auth</td><td>Security, RBAC, cryptographic audit</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">ai/</td><td>Agent identifier, action classifier, evidence grader, response validator</td><td>AI-native agent interaction layer</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">crypto/</td><td>Merkle chain, Ed25519 signer, hash verifier</td><td>Cryptographic integrity and signing</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">license/</td><td>License manager, machine binder, tier enforcer</td><td>4-tier licensing, machine-bound enforcement</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">case/</td><td>Case manager, dispatch engine, escalation router</td><td>Human-in-the-loop case management</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">integrations/</td><td>Evidence client, Gmail dispatch, webhook relay</td><td>External system connectors</td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">db/</td><td>WORM store, event log, state manager</td><td>Immutable storage layer</td></tr>
+    </table>
+    <div class="card-grid mt-16">
+      <div class="card alt-accent"><h4>Agent-Agnostic</h4><p>Works with any framework via single endpoint change. Drop-in middleware, not a fork.</p></div>
+      <div class="card alt-accent"><h4>Pre-Flight Enforcement</h4><p>Every action checked against Ed25519-signed policies. Decision latency &lt;50ms.</p></div>
+      <div class="card alt-accent"><h4>Merkle-Chain WORM Storage</h4><p>Write-once, read-many audit trail with SHA-256 integrity. Tamper-evident.</p></div>
+      <div class="card alt-accent"><h4>On-Prem Deployment</h4><p>Zero data egress. Deploys behind customer firewall. Governed from Day 1.</p></div>
+    </div>
+
+    <h3 class="sub-heading mt-32">1.2 Marketing Site — 12 Pages</h3>
+    <p class="body-text mt-8">Complete product website — dark #0d1117 theme, #6e62ff accent, Source Sans 3, responsive. Pages: Home, Manifesto, Architecture, Pricing, Signup, Demo, Roadmap, Whitepaper, FAQ, Contact, Privacy, Quickstart.</p>
+
+    <h3 class="sub-heading mt-32">1.3 Capital Campaign — Complete Data Room</h3>
+    <div class="card-grid mt-16">
+      <div class="card"><div class="stat">8</div><div class="stat-label">HTML campaign documents</div><p style="margin-top:6px;">Overview, brief, pitch deck, projections, architecture, grant matrix, investor list, contact map</p></div>
+      <div class="card"><div class="stat">50</div><div class="stat-label">Personalised application forms (.docx)</div><p style="margin-top:6px;">Every AU and international investor has a tailored form with firm-specific detail</p></div>
+      <div class="card"><div class="stat">12</div><div class="stat-label">Grant programs mapped</div><p style="margin-top:6px;">$500K+ non-dilutive pipeline — R&D Tax, CSIRO, QIEP, IGP, AI Adopt + 7 more</p></div>
+      <div class="card"><div class="stat">6</div><div class="stat-label">Supporting PDFs</div><p style="margin-top:6px;">One-pager, deck, whitepaper, pricing, architecture, landing page</p></div>
+    </div>
+
+    <h3 class="sub-heading mt-32">1.4 Narrative Lock</h3>
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:20px;margin-top:12px;display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div><strong style="color:var(--text-heading);font-weight:400;">One-liner:</strong><br><span style="color:var(--color-primary);">Runtime governance layer for autonomous AI agents</span></div>
+      <div><strong style="color:var(--text-heading);font-weight:400;">Category:</strong><br>Runtime Governance Infrastructure</div>
+      <div><strong style="color:var(--text-heading);font-weight:400;">The Third Way:</strong><br>Governed Autonomy — neither moratorium nor chaos</div>
+      <div><strong style="color:var(--text-heading);font-weight:400;">Framing quote:</strong><br>"Can this agent prove itself?"</div>
+    </div>
+
+    <h3 class="sub-heading mt-32">1.5 Infrastructure &amp; Automation (HermesGenesis)</h3>
+    <p class="body-text mt-8">Sovereign autonomous agent infrastructure on Nous Research's Hermes Agent. Empire Autonomous Business operates 9 agents handling prospecting, email, social, follow-ups. Oscar (AU trade sales), AgentCoreV5 (autonomous platform), Socio (content engine), EddyOS (companion). CRON orchestration with watchdog, cost ledger ($5/day cap), inbox scanning, follow-up checker.</p>
+
+    <h3 class="sub-heading mt-32">1.6 Security &amp; Credential Infrastructure</h3>
+    <p class="body-text mt-8">Encrypted secrets management, pre-commit hardening, gitignore-enforced protection, multi-layer auth, machine-bound Ed25519 license enforcement.</p>
+
+    <h3 class="sub-heading mt-32">1.7 Additional Proof Points</h3>
+    <ul>
+      <li><strong>Snowflake CoCo CLI Hackathon</strong> — 3 agent skills (evidence grader, change classifier, policy enforcer). 22/22 tests passing. Cross-platform portability.</li>
+      <li><strong>EmpireBid</strong> — 15 AU tender bids processed through agent-driven procurement automation.</li>
+      <li><strong>EAB Fleet Agent Network</strong> — 9-agent fleet operating autonomously within tight cost controls.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART II: TRACTION -->
+<section id="traction">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary);">Part II</span>
+    <h2 class="section-heading mt-8">Results &amp; Traction</h2>
+
+    <h3 class="sub-heading mt-24">2.1 Engineering Milestones</h3>
+    <table>
+      <tr><th>Milestone</th><th>Date</th><th>Status</th></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Gateway engine (25 modules, 9 namespaces)</td><td>Q2-Q3 2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Complete</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">AU provisional patent (AU 2026906017)</td><td>03/07/2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Filed</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Marketing site (12 pages)</td><td>Q2-Q3 2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Live</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Data centre partnerships (NEXTDC)</td><td>Q2 2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Pipeline active</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Capital campaign (50 investors)</td><td>07/2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Ready to send</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Self-serve sign-up flow</td><td>Q3 2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Built</span></td></tr>
+      <tr><td style="color:var(--text-heading);font-weight:400;">Phone-home + Agent #10</td><td>Q3 2026</td><td><span class="badge-success" style="padding:2px 8px;font-size:0.65rem;">Running</span></td></tr>
+    </table>
+
+    <h3 class="sub-heading mt-24">2.2 Commercial Traction</h3>
+    <div class="card-grid">
+      <div class="card"><div class="stat">25</div><div class="stat-label">Engine modules built</div></div>
+      <div class="card"><div class="stat">12</div><div class="stat-label">Marketing pages live</div></div>
+      <div class="card"><div class="stat">50</div><div class="stat-label">Investors researched</div></div>
+      <div class="card"><div class="stat">12</div><div class="stat-label">Grant programs mapped</div></div>
+      <div class="card"><div class="stat">50</div><div class="stat-label">Application forms prepared</div></div>
+      <div class="card"><div class="stat">15</div><div class="stat-label">Bids processed</div></div>
+    </div>
+
+    <h3 class="sub-heading mt-24">2.3 Capital Efficiency</h3>
+    <p class="body-text mt-8">Built from Townsville, QLD — lower burn vs metro founders, QLD grants accessible, regional tech narrative resonates with AU VCs, zero VC dollars spent to date. Bootstrapped + autonomous agent labour.</p>
+  </div>
+</section>
+
+<!-- PART III: ROADMAP -->
+<section class="alt-bg" id="roadmap">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary);">Part III</span>
+    <h2 class="section-heading mt-8">The Roadmap — Next Stages</h2>
+
+    <h3 class="sub-heading mt-24">Horizon 1: Launch &amp; First Revenue</h3>
+    <p class="body-text" style="color:var(--color-primary);font-weight:400;">Now — Q3 2026 &nbsp;&middot;&nbsp; First customer pilots + grant applications</p>
+    <table><tr><th>Action</th><th>Timeline</th><th>KPI</th></tr>
+      <tr><td>Send investor emails (42 by cold email)</td><td>Week 1</td><td>10 meetings booked</td></tr>
+      <tr><td>Submit AirTree office hours</td><td>Week 1</td><td>Meeting confirmed</td></tr>
+      <tr><td>Apply CSIRO Kick-Start grant</td><td>Week 2</td><td>Application submitted</td></tr>
+      <tr><td>Submit Y Combinator (Winter 2027)</td><td>Week 2</td><td>Complete</td></tr>
+      <tr><td>First 3 self-serve customers</td><td>Q3 2026</td><td>$1.5K MRR</td></tr>
+      <tr><td>First enterprise pilot LOI</td><td>Q3 2026</td><td>1 signed LOI</td></tr>
+      <tr><td>File R&D Tax Incentive</td><td>Q3 2026</td><td>Filed</td></tr>
+    </table>
+
+    <h3 class="sub-heading mt-24">Horizon 2: Product Hardening &amp; Connectors</h3>
+    <p class="body-text" style="color:var(--color-success);font-weight:400;">Q4 2026 — Q1 2027 &nbsp;&middot;&nbsp; SOC 2 readiness + integration ecosystem</p>
+    <table><tr><th>Action</th><th>Timeline</th><th>KPI</th></tr>
+      <tr><td>SOC 2 Type I audit prep</td><td>Q4 2026</td><td>Auditor engaged</td></tr>
+      <tr><td>Outlook, Slack, Xero connectors</td><td>Q4 2026</td><td>Shipped</td></tr>
+      <tr><td>NEXTDC partnership signed</td><td>Q4 2026</td><td>On-prem distribution</td></tr>
+      <tr><td>Enterprise sales (3-5 deals)</td><td>Q1 2027</td><td>$2K+/mo avg</td></tr>
+      <tr><td>Series A prep begins</td><td>Q1 2027</td><td>$5M target</td></tr>
+      <tr><td>Target MRR</td><td>Q1 2027</td><td>$25K/mo</td></tr>
+    </table>
+
+    <h3 class="sub-heading mt-24">Horizon 3: Global Expansion</h3>
+    <p class="body-text" style="color:var(--color-warn);font-weight:400;">Q2 — Q4 2027 &nbsp;&middot;&nbsp; Scale beyond AU</p>
+    <table><tr><th>Action</th><th>Timeline</th><th>KPI</th></tr>
+      <tr><td>Equinix Marketplace (200+ metros)</td><td>Q2 2027</td><td>Global distribution live</td></tr>
+      <tr><td>SE Asia + UK/EU market entry</td><td>Q2-Q3 2027</td><td>4+ international customers</td></tr>
+      <tr><td>Series A close</td><td>Q3 2027</td><td>$5M raised</td></tr>
+      <tr><td>US market entry</td><td>Q4 2027</td><td>2 US customers</td></tr>
+      <tr><td>10 channel partners</td><td>Q4 2027</td><td>Active resellers</td></tr>
+      <tr><td>Target ARR</td><td>Q4 2027</td><td>$1M+ ARR</td></tr>
+    </table>
+
+    <h3 class="sub-heading mt-24">Horizon 4: Universal Agent Governance</h3>
+    <p class="body-text" style="color:var(--color-primary);font-weight:400;">2028+ &nbsp;&middot;&nbsp; Every machine, every Agent-to-Agent transaction</p>
+    <table><tr><th>Action</th><th>Timeline</th><th>KPI</th></tr>
+      <tr><td>Lightweight WitnessOS client (universal)</td><td>2028</td><td>&lt;10MB footprint</td></tr>
+      <tr><td>Agent-to-Agent transaction protocol (A2A)</td><td>2028</td><td>Standard published</td></tr>
+      <tr><td>Decentralised witness network</td><td>2028</td><td>Public beta</td></tr>
+      <tr><td>Industry standard for agent governance</td><td>2029</td><td>Regulatory reference</td></tr>
+      <tr><td>WitnessOS on every PC</td><td>2030</td><td>1M+ agents governed</td></tr>
+    </table>
+  </div>
+</section>
+
+<!-- PART IV: GRAND VISION -->
+<section id="vision">
+  <div class="container">
+    <span class="code-label" style="color:var(--color-primary);">Part IV</span>
+    <h2 class="section-heading mt-8">The Grand Vision</h2>
+    <div class="hero-quote" style="font-size:1.5rem;">
+      Every agent, every machine, worldwide.
+      <span class="attribution">Infrastructure — as fundamental as DNS, as ubiquitous as TLS, as trusted as a notary.</span>
+    </div>
+
+    <div class="vision-stage"><h4><span class="stage-label">Stage 1 — Now</span> Governance Middleware</h4><p class="body-text mt-8">Enterprises deploy WitnessOS between agents and production. Compliance gets audit trails. Engineering gets guardrails. Regulators get proof. <strong style="color:var(--text-heading);">This is running today.</strong></p></div>
+    <div class="vision-stage"><h4><span class="stage-label">Stage 2 — 2028</span> Agent-to-Agent Transaction Layer</h4><p class="body-text mt-8">AI procurement agent negotiates with AI sales agent — WitnessOS observes, records, certifies. Cryptographic proof of every inter-agent agreement. <strong style="color:var(--text-heading);">A notary for the autonomous economy.</strong></p></div>
+    <div class="vision-stage"><h4><span class="stage-label">Stage 3 — 2030</span> Universal Witness</h4><p class="body-text mt-8">Lightweight client ships on every device. Every agent action — server, desktop, phone, edge — observed, governed, provable. <strong style="color:var(--text-heading);">The global Merkle chain of agent actions.</strong></p></div>
+
+    <h3 class="sub-heading mt-24">The Economic Thesis</h3>
+    <div class="econ-grid">
+      <div class="econ-card"><div class="year">2026</div><div class="revenue">$495</div><div class="desc">10 agents/mo</div></div>
+      <div class="econ-card"><div class="year">2027</div><div class="revenue">$47.5K</div><div class="desc">1,000 agents/mo</div></div>
+      <div class="econ-card"><div class="year">2028</div><div class="revenue">$4.75M</div><div class="desc">100,000 agents/mo</div></div>
+      <div class="econ-card"><div class="year">2030</div><div class="revenue">$475M+</div><div class="desc">10M+ agents/mo</div></div>
+    </div>
+    <p class="body-text mt-16">The market expands with the agent economy. Every new autonomous agent is a potential WitnessOS node. Building the layer a growing market will route through.</p>
+
+    <h3 class="sub-heading mt-24">The Moat</h3>
+    <div class="moat-grid">
+      <div class="moat-item"><div class="moat-layer">IP</div><h4>Patent Protected</h4><p>AU 2026906017 — Merkle-chain agent audit. PCT filing in 2027.</p></div>
+      <div class="moat-item"><div class="moat-layer">First-Mover</div><h4>Category of One</h4><p>No dedicated competitor. We define runtime governance for agents.</p></div>
+      <div class="moat-item"><div class="moat-layer">Integration</div><h4>Agent-Agnostic</h4><p>Works with any framework. Drop-in middleware, not a platform lock.</p></div>
+      <div class="moat-item"><div class="moat-layer">Deployment</div><h4>On-Prem by Default</h4><p>Deploys on customer infra. Zero data egress. Regulated-industry ready.</p></div>
+      <div class="moat-item"><div class="moat-layer">Network</div><h4>Connector Flywheel</h4><p>More connectors → more value. More agents → richer audit patterns.</p></div>
+      <div class="moat-item"><div class="moat-layer">Capital</div><h4>Built Lean</h4><p>QLD-based. Lower burn, longer runway, grant-accessible. No VC dependency.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- THE ASK -->
+<section class="alt-bg" id="ask">
+  <div class="container">
+    <div class="badge">The Ask</div>
+    <h2 class="display-large">$1.2M AUD</h2>
+    <p class="body-large mt-8">Seed Round — 18 Months Runway</p>
+
+    <h3 class="sub-heading mt-24">Use of Funds</h3>
+    <div class="ask-bars">
+      <div class="ask-bar"><span class="ask-label">Developer salaries (3 FTE)</span><div class="ask-track"><div class="ask-fill s1"></div></div><span class="ask-amount">$450K</span></div>
+      <div class="ask-bar"><span class="ask-label">Product hardening</span><div class="ask-track"><div class="ask-fill s2"></div></div><span class="ask-amount">$250K</span></div>
+      <div class="ask-bar"><span class="ask-label">Hardware infrastructure</span><div class="ask-track"><div class="ask-fill s3"></div></div><span class="ask-amount">$200K</span></div>
+      <div class="ask-bar"><span class="ask-label">GTM + partnerships</span><div class="ask-track"><div class="ask-fill s4"></div></div><span class="ask-amount">$200K</span></div>
+      <div class="ask-bar"><span class="ask-label">Legal + IP</span><div class="ask-track"><div class="ask-fill s5"></div></div><span class="ask-amount">$100K</span></div>
+    </div>
+
+    <h3 class="sub-heading mt-24">+$500K Grant Pipeline (Non-Dilutive)</h3>
+    <table style="max-width:500px;"><tr><th>Program</th><th>Amount</th><th>Timeline</th></tr>
+      <tr><td>R&D Tax Incentive</td><td>$150K+</td><td>Ongoing</td></tr>
+      <tr><td>CSIRO Kick-Start</td><td>$50K</td><td>Q3 2026</td></tr>
+      <tr><td>QIEP Ignite Ideas</td><td>$200K</td><td>Q4 2026</td></tr>
+      <tr><td>Industry Growth Program</td><td>$100K</td><td>Q1 2027</td></tr>
+    </table>
+
+    <h3 class="sub-heading mt-24">Projected Milestones</h3>
+    <div style="max-width:450px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:8px;padding:20px;margin-top:12px;">
+      <div class="metric-row"><span>MRR at 12 months</span><span><strong style="color:var(--text-heading);">$36K/mo</strong></span></div>
+      <div class="metric-row"><span>ARR at 12 months</span><span><strong style="color:var(--text-heading);">$432K</strong></span></div>
+      <div class="metric-row"><span>MRR at 18 months</span><span><strong style="color:var(--text-heading);">$60K/mo</strong></span></div>
+      <div class="metric-row"><span>ARR at 18 months</span><span><strong style="color:var(--text-heading);">$720K</strong></span></div>
+      <div class="metric-row"><span>Enterprise customers</span><span><strong style="color:var(--text-heading);">10-25</strong></span></div>
+      <div class="metric-row"><span>Gross margin target</span><span><strong style="color:var(--text-heading);">85%</strong></span></div>
+      <div class="metric-row"><span>Series A target</span><span><strong style="color:var(--text-heading);">Q4 2027</strong></span></div>
+    </div>
+
+    <h3 class="sub-heading mt-24" style="text-align:center;">Contact</h3>
+    <div style="text-align:center;margin-top:12px;">
+      <p class="body-text" style="color:var(--text-heading);">Eddie Wade — Founder, Empire Labs Pty Ltd</p>
+      <p class="body-text">Townsville, Queensland, Australia</p>
+      <p class="body-text mt-8"><a href="mailto:contact@empirelabs.com.au" style="font-size:1.125rem;color:var(--color-primary);">contact@empirelabs.com.au</a></p>
+      <p class="body-text mt-8" style="font-size:0.75rem;color:var(--text-label);">Patent: AU 2026906017 &middot; "The Third Way — Governed Autonomy"</p>
+    </div>
+  </div>
+</section>
+
+<section class="patent">
+  <div class="container">
+    <p><strong>Patent Pending.</strong> WitnessOS by Empire Labs Pty Ltd. &nbsp;&middot;&nbsp; &copy; 2026 Empire Labs Pty Ltd</p>
+    <p style="margin-top:6px;">Confidential — intended for potential investors. WitnessOS is proprietary, patent-protected, and closed-source.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container-wide" style="max-width:1080px;margin:0 auto;padding:0 24px;">
+    <div class="footer-grid">
+      <div class="footer-brand"><span>■</span><p>Guardrails for autonomous AI. Built by Empire Labs Pty Ltd, Townsville QLD.</p></div>
+      <div class="footer-col"><h4>Product</h4><a href="WITNESSOS-LANDING-PAGE.html">Landing Page</a><a href="WITNESSOS-INVESTMENT-PACKAGE.html">Investment Package</a></div>
+      <div class="footer-col"><h4>Campaign</h4><a href="index.html">Campaign Overview</a><a href="pitch-deck.html">Pitch Deck</a></div>
+      <div class="footer-col"><h4>Company</h4><a href="mailto:contact@empirelabs.com.au">contact@empirelabs.com.au</a></div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
