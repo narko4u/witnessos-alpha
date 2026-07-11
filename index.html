@@ -161,6 +161,41 @@ nav .container {
 .metric .label { font-size: .8rem; color: #8b949e; }
 
 /* Interactive Demo Console */
+.walkthrough {
+  max-width: 780px; margin: 2rem auto 0; text-align: center;
+}
+.wt-dots {
+  display: flex; justify-content: center; gap: 8px; margin-bottom: 16px;
+}
+.wt-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: #21262d; border: 1px solid #30363d;
+  cursor: pointer; transition: all .3s;
+}
+.wt-dot.active { background: #6e62ff; border-color: #6e62ff; box-shadow: 0 0 8px rgba(110,98,255,0.4); }
+.wt-dot:hover { border-color: #6e62ff; }
+.wt-label {
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: rgba(110,98,255,0.5); margin-bottom: 16px; font-weight: 600;
+}
+.wt-content { min-height: 320px; position: relative; }
+.wt-step { display: none; width: 100%; }
+.wt-step.active { display: block; animation: wtFade 0.4s ease; }
+@keyframes wtFade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+.wt-nav {
+  display: flex; justify-content: center; align-items: center;
+  gap: 20px; margin-top: 24px;
+}
+.wt-counter { font-size: 13px; color: #8b949e; font-weight: 500; }
+.wt-btn {
+  background: transparent; border: 1px solid #21262d; color: #8b949e;
+  padding: 8px 20px; border-radius: 6px; cursor: pointer;
+  font-size: 14px; font-family: 'Source Sans 3', sans-serif;
+  transition: all .2s;
+}
+.wt-btn:hover { border-color: #6e62ff; color: #6e62ff; }
+.wt-btn-primary { background: #6e62ff; color: #fff; border-color: #6e62ff; }
+.wt-btn-primary:hover { background: #5a50e0; border-color: #5a50e0; color: #fff; }
 .demo-controls {
   display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
   padding: 16px 20px; background: #161b22; border: 1px solid #21262d; border-radius: 8px; margin-bottom: 24px;
@@ -566,285 +601,284 @@ footer {
 <section id="demo" class="section">
   <div class="container">
     <h2>See WitnessOS in Action</h2>
-    <p>Our interactive API explorer lets you send simulated agent actions through the WitnessOS gateway and observe policy enforcement, Merkle-chain witnessing, and case dispatch in real time. No installation required — run scenarios directly in your browser.</p>
+    <p>A walkthrough of the running system — real policy enforcement, Merkle-chain witnessing, and human-in-the-loop case dispatch. No cloud dependencies, no external APIs.</p>
 
-    <div class="demo-controls">
-      <div class="controls-left">
-        <label for="policy-select" style="font-size:0.8125rem;font-weight:400;color:#e6edf3;">Policy:</label>
-        <select id="policy-select" class="demo-select">
-          <option value="default">Default (recommended)</option>
-          <option value="strict">Strict (deny mutations)</option>
-          <option value="permissive">Permissive (allow all)</option>
-        </select>
-        <label for="auto-mode" style="font-size:0.8125rem;font-weight:400;color:#e6edf3;cursor:pointer;display:flex;align-items:center;gap:6px;">
-          <input type="checkbox" id="auto-mode"> Auto-fire
-        </label>
+    <div class="walkthrough" id="walkthrough">
+      <!-- Step indicators -->
+      <div class="wt-dots" id="wt-dots">
+        <span class="wt-dot active" data-step="1"></span>
+        <span class="wt-dot" data-step="2"></span>
+        <span class="wt-dot" data-step="3"></span>
+        <span class="wt-dot" data-step="4"></span>
+        <span class="wt-dot" data-step="5"></span>
+        <span class="wt-dot" data-step="6"></span>
+        <span class="wt-dot" data-step="7"></span>
+        <span class="wt-dot" data-step="8"></span>
       </div>
-      <div class="controls-right">
-        <button class="demo-btn primary" id="fire-btn">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          Fire action
-        </button>
-        <button class="demo-btn flush" id="flush-btn">x5</button>
-        <button class="demo-btn ghost" id="clear-btn">Clear feed</button>
-      </div>
-    </div>
 
-    <div class="stats-row" id="stats-row">
-      <div class="stat-card">
-        <div class="stat-num allow" id="s-allowed">0</div>
-        <div class="stat-label">Allowed</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num deny" id="s-denied">0</div>
-        <div class="stat-label">Denied</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num flag" id="s-flagged">0</div>
-        <div class="stat-label">Flagged for review</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num pending" id="s-pending">0</div>
-        <div class="stat-label">Pending / Dispatching</div>
-      </div>
-      <div class="stat-card" style="border-color:rgba(110,98,255,0.2);">
-        <div class="stat-num" style="color:#6e62ff;" id="s-total">0</div>
-        <div class="stat-label">Total events</div>
-      </div>
-    </div>
+      <!-- Step label -->
+      <div class="wt-label" id="wt-label">WitnessOS · Product Demo</div>
 
-    <div class="filter-row">
-      <span class="label">Filter:</span>
-      <button class="demo-btn flush active" data-filter="all" id="f-all">All</button>
-      <button class="demo-btn flush" data-filter="allow" id="f-allow">Allowed</button>
-      <button class="demo-btn flush" data-filter="deny" id="f-deny">Denied</button>
-      <button class="demo-btn flush" data-filter="flag" id="f-flag">Flagged</button>
-      <button class="demo-btn flush" data-filter="pending" id="f-pending">Pending</button>
-    </div>
+      <!-- Steps container -->
+      <div class="wt-content" id="wt-content">
 
-    <div class="audit-feed" id="feed">
-      <div class="empty-state" id="empty-state">
-        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <h3>No actions yet</h3>
-        <p>Click <strong>Fire action</strong> to start building the audit trail.</p>
+        <!-- STEP 1: INTRO -->
+        <div class="wt-step active" data-step="1">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Runtime governance for <span style="color:#6e62ff;">autonomous AI</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">Every agent action — cryptographically signed, policy-enforced, and Merkle-chained. This is a walkthrough of the running system.</p>
+          <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+            <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px 20px;text-align:center;flex:1;min-width:160px;">
+              <div style="font-size:18px;font-weight:700;color:#6e62ff;">Witness</div>
+              <div style="font-size:11px;color:#8b949e;margin-top:4px;">Tamper-proof Merkle audit trail</div>
+            </div>
+            <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px 20px;text-align:center;flex:1;min-width:160px;">
+              <div style="font-size:18px;font-weight:700;color:#6e62ff;">Policy</div>
+              <div style="font-size:11px;color:#8b949e;margin-top:4px;">Pre-flight enforcement &lt;50ms</div>
+            </div>
+            <div style="background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px 20px;text-align:center;flex:1;min-width:160px;">
+              <div style="font-size:18px;font-weight:700;color:#6e62ff;">Case</div>
+              <div style="font-size:11px;color:#8b949e;margin-top:4px;">Human-in-the-loop approval</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2: FIRE ACTIONS -->
+        <div class="wt-step" data-step="2">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Step 1: Fire agent actions → <span style="color:#6e62ff;">three cases</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">Each action passes through the PolicyEngine. Actions that trigger risk flags are held for human approval.</p>
+          <div class="card" style="text-align:left;">
+            <div style="border-left:3px solid #6e62ff;padding:10px 14px;margin:8px 0;background:rgba(110,98,255,0.03);border-radius:0 6px 6px 0;">
+              <div style="font-size:11px;color:#6e62ff;font-weight:700;margin-bottom:4px;">ACTION — Refund request ($249.99)</div>
+              <pre style="margin:0;font-size:12px;color:#8b949e;">POST /demo/action → Status: "approval_required"
+# case_id: wos_5ca6fa510d22</pre>
+            </div>
+            <div style="border-left:3px solid #6e62ff;padding:10px 14px;margin:8px 0;background:rgba(110,98,255,0.03);border-radius:0 6px 6px 0;">
+              <div style="font-size:11px;color:#6e62ff;font-weight:700;margin-bottom:4px;">ACTION — Admin access to production</div>
+              <pre style="margin:0;font-size:12px;color:#8b949e;">POST /demo/action → Status: "approval_required"
+# case_id: wos_b59089e2bbc8</pre>
+            </div>
+            <div style="border-left:3px solid #6e62ff;padding:10px 14px;margin:8px 0;background:rgba(110,98,255,0.03);border-radius:0 6px 6px 0;">
+              <div style="font-size:11px;color:#6e62ff;font-weight:700;margin-bottom:4px;">ACTION — Bulk data export (52K records)</div>
+              <pre style="margin:0;font-size:12px;color:#8b949e;">POST /demo/action → Status: "approval_required"
+# case_id: wos_d741b9c87b1a</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3: APPROVE/DENY -->
+        <div class="wt-step" data-step="3">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Step 2: Approve or <span style="color:#6e62ff;">deny</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">Approving triggers the full signing pipeline — Ed25519 signature, Merkle chain append, and a signed cryptographic receipt.</p>
+          <div class="card" style="text-align:left;">
+            <div style="border-left:3px solid #3fb950;padding:10px 14px;margin:8px 0;background:rgba(63,185,80,0.03);border-radius:0 6px 6px 0;">
+              <div style="font-size:11px;color:#3fb950;font-weight:700;margin-bottom:4px;">APPROVE — Case wos_5ca6fa510d22</div>
+              <pre style="margin:0;font-size:12px;color:#8b949e;">POST /demo/approve/wos_5ca6fa510d22
+→ Status: "dispatched"
+{
+  "receipt_id": "wos_5ca6fa510d22_019f50644e35615b",
+  "status": "dispatched",
+  "signature": "b613b868179b5fe4f0e8994c62ad60080..."
+}</pre>
+            </div>
+            <div style="border-left:3px solid #f85149;padding:10px 14px;margin:8px 0;background:rgba(248,81,73,0.03);border-radius:0 6px 6px 0;">
+              <div style="font-size:11px;color:#f85149;font-weight:700;margin-bottom:4px;">DENY — Case wos_b59089e2bbc8</div>
+              <pre style="margin:0;font-size:12px;color:#8b949e;">POST /demo/deny/wos_b59089e2bbc8
+→ Status: "ok"
+"Case wos_b59089e2bbc8 denied"</pre>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4: RECEIPT -->
+        <div class="wt-step" data-step="4">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Every decision is <span style="color:#6e62ff;">permanent</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">There is no "soft delete." Every approve or deny is cryptographically signed and Merkle-anchored.</p>
+          <div class="card" style="text-align:left;">
+            <pre style="margin:0;font-size:12px;color:#8b949e;line-height:1.6;">{
+  "case_id": "wos_5ca6fa510d22",
+  "actor": {
+    "agent_id": "spiffe://witnessos/demo/agent",
+    "model": "sovereign",
+    "framework": "hermes-agent"
+  },
+  "policy": { "decision": "approval_required", "risk_class": "external_email" },
+  "evidence_grade": "E3",
+  "integrity": {
+    "signing_key_id": "key_receipt_ledger",
+    "previous_receipt_hash": "sha256:e0a73d..."
+  },
+  "action": { "target_system": "gmail", "target_resource": "send" }
+}</pre>
+          </div>
+        </div>
+
+        <!-- STEP 5: DASHBOARD -->
+        <div class="wt-step" data-step="5">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Step 3: Real-time <span style="color:#6e62ff;">visibility</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">Search, filter, and drill into every case. Each row shows status, action type, and full event timeline.</p>
+          <div style="background:#0d1117;border:1px solid #21262d;border-radius:8px;padding:16px;text-align:left;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+              <span style="font-size:13px;font-weight:600;color:#e6edf3;">Case Dashboard</span>
+              <span style="font-size:10px;padding:3px 8px;border-radius:4px;background:rgba(110,98,255,0.1);color:#6e62ff;border:1px solid rgba(110,98,255,0.2);">● Live</span>
+            </div>
+            <div style="display:flex;gap:10px;margin-bottom:12px;">
+              <div style="flex:1;padding:10px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;">
+                <div style="font-size:18px;font-weight:700;color:#e6edf3;">3</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);">Total</div>
+              </div>
+              <div style="flex:1;padding:10px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;">
+                <div style="font-size:18px;font-weight:700;color:#3fb950;">1</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);">Approved</div>
+              </div>
+              <div style="flex:1;padding:10px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;">
+                <div style="font-size:18px;font-weight:700;color:#f85149;">1</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);">Denied</div>
+              </div>
+              <div style="flex:1;padding:10px;background:rgba(255,255,255,0.02);border-radius:6px;text-align:center;">
+                <div style="font-size:18px;font-weight:700;color:#d29922;">1</div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);">Pending</div>
+              </div>
+            </div>
+            <table style="width:100%;border-collapse:collapse;font-size:11px;">
+              <tr><th style="text-align:left;padding:8px 6px;color:rgba(255,255,255,0.3);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06);">Status</th><th style="text-align:left;padding:8px 6px;color:rgba(255,255,255,0.3);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06);">Case ID</th><th style="text-align:left;padding:8px 6px;color:rgba(255,255,255,0.3);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06);">Type</th><th style="text-align:left;padding:8px 6px;color:rgba(255,255,255,0.3);font-weight:600;border-bottom:1px solid rgba(255,255,255,0.06);">Summary</th></tr>
+              <tr><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);"><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-weight:600;background:rgba(63,185,80,0.15);color:#3fb950;">Approved</span></td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">wos_5ca6fa51</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">send_email</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">Refund request</td></tr>
+              <tr><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);"><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-weight:600;background:rgba(248,81,73,0.15);color:#f85149;">Denied</span></td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">wos_b59089e2</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">modify_permissions</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">Admin access to prod</td></tr>
+              <tr><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);"><span style="font-size:10px;padding:2px 6px;border-radius:3px;font-weight:600;background:rgba(210,153,34,0.15);color:#d29922;">Pending</span></td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">wos_d741b9c8</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">send_email</td><td style="padding:8px 6px;border-bottom:1px solid rgba(255,255,255,0.03);color:rgba(255,255,255,0.7);">Bulk data export alert</td></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- STEP 6: MERKLE CHAIN -->
+        <div class="wt-step" data-step="6">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Step 4: Tamper-proof by <span style="color:#6e62ff;">design</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">Every event is hashed into a Merkle tree. Change one byte — root hash changes — instantly detectable.</p>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+            <div style="font-family:'Source Code Pro',monospace;font-size:11px;padding:6px 14px;background:#161b22;border:1px solid rgba(110,98,255,0.3);border-radius:4px;color:#6e62ff;background:rgba(110,98,255,0.06);">ROOT: sha256:37b7461202c9cbc07f93c41cb3dd66ccb1529096a97a45894eba2067d1ebd860</div>
+            <div style="color:rgba(255,255,255,0.08);font-size:12px;">├──────────────────┴──────────────────┤</div>
+            <div style="display:flex;gap:8px;">
+              <div style="font-family:'Source Code Pro',monospace;font-size:9px;padding:4px 8px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">node[1]: 1f2edd12943f512a...</div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:9px;padding:4px 8px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">node[2]: 331134740285536d...</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.08);font-size:12px;">├─────────┴──────────┤  ├─────────┴──────────┤</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;">
+              <div style="font-family:'Source Code Pro',monospace;font-size:8px;padding:3px 6px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">leaf[1]: 6395922b0a...</div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:8px;padding:3px 6px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">leaf[2]: 9d2e468424...</div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:8px;padding:3px 6px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">leaf[3]: 17b3fd7452...</div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:8px;padding:3px 6px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">leaf[4]: edfea995ed...</div>
+              <div style="font-family:'Source Code Pro',monospace;font-size:8px;padding:3px 6px;background:#161b22;border:1px solid rgba(255,255,255,0.06);border-radius:4px;color:rgba(255,255,255,0.5);">leaf[5]: f665c4b1a0...</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.2);font-size:10px;margin-top:4px;">event: case_created | policy_decision | approval | dispatch | chain_seal</div>
+          </div>
+        </div>
+
+        <!-- STEP 7: SDK -->
+        <div class="wt-step" data-step="7">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">3 lines to <span style="color:#6e62ff;">production</span>.</h3>
+          <p style="color:#8b949e;max-width:700px;margin:0 auto 20px;">The Python SDK is pip-installable. Full typed models for every API — fire, approve, verify.</p>
+          <div class="card" style="text-align:left;">
+            <pre style="margin:0;font-size:13px;color:#8b949e;line-height:1.6;"><span style="color:#6e62ff;"># Install</span>
+$ pip install witnessos-sdk
+
+<span style="color:#6e62ff;"># Govern any agent action</span>
+<span style="color:#569cd6;">from</span> witnessos_sdk <span style="color:#569cd6;">import</span> WitnessOSClient
+
+client = WitnessOSClient(api_key=<span style="color:#ce9178;">"..."</span>)
+
+<span style="color:#6e62ff;"># Fire an action — approval required if flagged</span>
+result = client.send_email(
+    to=<span style="color:#ce9178;">"customer@acme.com"</span>,
+    subject=<span style="color:#ce9178;">"Refund approved"</span>,
+    body=<span style="color:#ce9178;">"Your refund of $249.99 has been processed."</span>
+)
+<span style="color:#6e62ff;"># result.status → "approval_required" or "dispatched"</span>
+
+<span style="color:#6e62ff;"># Approve a pending case</span>
+receipt = client.approve(result.case_id)
+
+<span style="color:#6e62ff;"># Verify the audit trail</span>
+chain = client.get_chain(result.case_id)
+<span style="color:#6e62ff;"># chain.root_hash → sha256:37b7461202c9cbc07f93c41cb3dd66ccb1529096a97a45894eba2067d1ebd860</span></pre>
+          </div>
+        </div>
+
+        <!-- STEP 8: CLOSE -->
+        <div class="wt-step" data-step="8">
+          <h3 style="font-size:1.5rem;font-weight:700;color:#e6edf3;margin-bottom:8px;">Ready to see it <span style="color:#6e62ff;">live</span>?</h3>
+          <p style="color:#8b949e;max-width:600px;margin:0 auto 20px;">Full-stack demo runs locally. No cloud dependencies. Single <code style="color:#e6edf3;">docker compose up</code>.</p>
+          <div style="text-align:center;margin-top:10px;">
+            <p style="font-size:14px;color:#e6edf3;font-weight:600;">Eddie Wade</p>
+            <p style="font-size:13px;color:#8b949e;">contact@empirelabs.com.au</p>
+            <p style="font-size:13px;color:#8b949e;">narko4u.github.io/witnessos-alpha/</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Navigation -->
+      <div class="wt-nav">
+        <button class="wt-btn" id="wt-prev" onclick="wtGoTo(currentStep - 1)" style="visibility:hidden;">← Previous</button>
+        <span class="wt-counter" id="wt-counter">1 / 8</span>
+        <button class="wt-btn wt-btn-primary" id="wt-next" onclick="wtGoTo(currentStep + 1)">Next →</button>
       </div>
     </div>
 
   </div>
-</section>
 
 <script>
-(function() {
-  var fireBtn = document.getElementById('fire-btn');
-  var flushBtn = document.getElementById('flush-btn');
-  var clearBtn = document.getElementById('clear-btn');
-  var policySelect = document.getElementById('policy-select');
-  var autoCheck = document.getElementById('auto-mode');
-  var feed = document.getElementById('feed');
-  var empty = document.getElementById('empty-state');
+// Walkthrough stepper
+var currentStep = 1;
+var totalSteps = 8;
 
-  var sAllowed = document.getElementById('s-allowed');
-  var sDenied = document.getElementById('s-denied');
-  var sFlagged = document.getElementById('s-flagged');
-  var sPending = document.getElementById('s-pending');
-  var sTotal = document.getElementById('s-total');
-
-  var filterBtns = document.querySelectorAll('[data-filter]');
-  var currentFilter = 'all';
-  var autoTimer = null;
-  var stats = { allowed: 0, denied: 0, flagged: 0, pending: 0 };
-  var events = [];
-  var seq = 0;
-
-  var ACTIONS = [
-    { name: 'gmail.send',      desc: 'Send compliance report to customer',                risk: 'medium', icon: 'M', casePrefix: 'wos' },
-    { name: 'gmail.send',      desc: 'Forward audit log to external auditor',              risk: 'high',   icon: 'M', casePrefix: 'wos' },
-    { name: 'gmail.send',      desc: 'Notify team of policy violation alert',              risk: 'low',    icon: 'M', casePrefix: 'wos' },
-    { name: 'policy.evaluate', desc: 'Evaluate action against active policy pack',         risk: 'low',    icon: 'P', casePrefix: 'pol' },
-    { name: 'policy.evaluate', desc: 'Re-evaluate after policy pack update v1.4',          risk: 'low',    icon: 'P', casePrefix: 'pol' },
-    { name: 'stripe.refund',   desc: 'Process refund for order INV-4392',                  risk: 'high',   icon: '$', casePrefix: 'str' },
-    { name: 'stripe.refund',   desc: 'Reverse duplicate charge TXN-8810',                  risk: 'high',   icon: '$', casePrefix: 'str' },
-    { name: 'dispatch.send',   desc: 'Dispatch approved action to Gmail provider',         risk: 'medium', icon: 'D', casePrefix: 'dsp' },
-    { name: 'dispatch.send',   desc: 'Retry dispatch for case wos_b3f2a1',                 risk: 'medium', icon: 'D', casePrefix: 'dsp' },
-    { name: 'approval.grant',  desc: 'Human-in-the-loop approval for gmail.send',          risk: 'low',    icon: 'A', casePrefix: 'app' },
-    { name: 'approval.deny',   desc: 'Human rejected stripe.refund - insufficient memo',   risk: 'low',    icon: 'A', casePrefix: 'app' },
-    { name: 'provider.ack',    desc: 'Gmail provider acknowledged send - msg_19f3a8b2',    risk: 'low',    icon: 'R', casePrefix: 'prv' },
-    { name: 'provider.fail',   desc: 'Gmail provider returned HTTP 503 - temp unavailable', risk: 'high',  icon: '!', casePrefix: 'prv' },
-    { name: 'cred.rotate',     desc: 'Rotate Gmail OAuth credential - scheduled rotation', risk: 'medium', icon: 'K', casePrefix: 'crd' },
-    { name: 'evidence.verify', desc: 'Verify case head commitment chain - 6/6 pass',       risk: 'low',    icon: 'V', casePrefix: 'evd' },
-    { name: 'case.create',     desc: 'New case opened for agent action gmail.send',        risk: 'low',    icon: '+', casePrefix: 'cse' },
-    { name: 'cap.check',       desc: 'Monthly dispatch cap check - 42/500 used',           risk: 'low',    icon: 'C', casePrefix: 'cap' },
-    { name: 'mta.sts.check',   desc: 'MTA-STS policy check for recipient domain',          risk: 'medium', icon: 'S', casePrefix: 'mta' },
-  ];
-
-  function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-  function pick(arr) { return arr[rand(0, arr.length - 1)]; }
-
-  function randCaseId(prefix) {
-    return prefix + '_' + Array.from({length:12}, function(){ return '0123456789abcdef' [rand(0,15)] }).join('');
+function wtGoTo(n) {
+  if (n < 1 || n > totalSteps) return;
+  currentStep = n;
+  
+  // Update steps
+  document.querySelectorAll('.wt-step').forEach(function(s) { s.classList.remove('active'); });
+  var step = document.querySelector('.wt-step[data-step="' + n + '"]');
+  if (step) step.classList.add('active');
+  
+  // Update dots
+  document.querySelectorAll('.wt-dot').forEach(function(d) { d.classList.remove('active'); });
+  var dot = document.querySelector('.wt-dot[data-step="' + n + '"]');
+  if (dot) dot.classList.add('active');
+  
+  // Update counter
+  document.getElementById('wt-counter').textContent = n + ' / ' + totalSteps;
+  
+  // Update buttons
+  document.getElementById('wt-prev').style.visibility = n > 1 ? 'visible' : 'hidden';
+  var nextBtn = document.getElementById('wt-next');
+  if (n >= totalSteps) {
+    nextBtn.textContent = 'Restart';
+    nextBtn.onclick = function() { wtGoTo(1); };
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.onclick = function() { wtGoTo(currentStep + 1); };
   }
+}
 
-  function randHex(len) {
-    return Array.from({length:len}, function(){ return '0123456789abcdef' [rand(0,15)] }).join('');
-  }
-
-  function sha256like(str) {
-    return 'sha256:' + randHex(64);
-  }
-
-  function decide(action, policy) {
-    var weights;
-    if (policy === 'permissive') {
-      weights = { allow: 0.92, flag: 0.05, deny: 0.03 };
-    } else if (policy === 'strict') {
-      if (action.risk === 'high')      weights = { deny: 0.70, flag: 0.20, allow: 0.10 };
-      else if (action.risk === 'medium') weights = { deny: 0.35, flag: 0.35, allow: 0.30 };
-      else                              weights = { allow: 0.70, flag: 0.20, deny: 0.10 };
-    } else {
-      if (action.risk === 'high')      weights = { flag: 0.45, deny: 0.30, allow: 0.25 };
-      else if (action.risk === 'medium') weights = { flag: 0.40, allow: 0.40, deny: 0.20 };
-      else                              weights = { allow: 0.80, flag: 0.15, deny: 0.05 };
-    }
-    var r = Math.random();
-    var cumulative = 0;
-    for (var k in weights) {
-      cumulative += weights[k];
-      if (r <= cumulative) return k;
-    }
-    return 'allow';
-  }
-
-  function lastHash() {
-    var items = feed.querySelectorAll('.audit-item');
-    if (!items.length) return randHex(56);
-    var last = items[items.length - 1];
-    var el = last.querySelector('.chain-hash');
-    return el ? el.textContent.trim() : randHex(56);
-  }
-
-  function fireSingle() {
-    var action = pick(ACTIONS);
-    var policy = policySelect.value;
-    var outcome = decide(action, policy);
-    var ts = new Date().toISOString().replace('T', ' ').substr(0, 19);
-    var caseId = randCaseId(action.casePrefix);
-    var prev = lastHash();
-    var eventHash = sha256like(prev + caseId + action.name + ts);
-    seq++;
-
-    if (outcome === 'deny')    { stats.denied++; sDenied.textContent = stats.denied; }
-    else if (outcome === 'flag') { stats.flagged++; sFlagged.textContent = stats.flagged; }
-    else if (outcome === 'pending') { stats.pending++; sPending.textContent = stats.pending; }
-    else                        { stats.allowed++; sAllowed.textContent = stats.allowed; }
-    sTotal.textContent = stats.allowed + stats.denied + stats.flagged + stats.pending;
-
-    var event = {
-      seq: seq, action: action, outcome: outcome, caseId: caseId,
-      eventHash: eventHash, prevHash: prev, ts: ts, policy: policy
-    };
-    events.push(event);
-
-    empty.style.display = 'none';
-
-    var card = document.createElement('div');
-    card.className = 'audit-item';
-    card.dataset.outcome = outcome;
-
-    var outcomeLabel = outcome.charAt(0).toUpperCase() + outcome.slice(1);
-    var iconLabel = outcome === 'allow' ? '\u2713' : outcome === 'deny' ? '\u2717' : outcome === 'flag' ? '!' : '\u2026';
-    var riskLabel = action.risk.charAt(0).toUpperCase() + action.risk.slice(1);
-
-    card.innerHTML =
-      '<div class="audit-card outcome-' + outcome + '">' +
-        '<div class="card-header">' +
-          '<div class="card-action">' +
-            '<div class="card-icon ' + outcome + '">' + iconLabel + '</div>' +
-            '<span class="card-name">' + action.name + '</span>' +
-            '<span class="card-case">' + caseId + '</span>' +
-            '<span class="risk-pill ' + action.risk + '">' + riskLabel + '</span>' +
-          '</div>' +
-          '<span class="demo-badge ' + outcome + '">' + outcomeLabel + '</span>' +
-        '</div>' +
-        '<div class="card-body">' +
-          '<span class="key">Description</span><span class="val">' + action.desc + '</span>' +
-          '<span class="key">Timestamp</span><span class="val">' + ts + '</span>' +
-          '<span class="key">Policy set</span><span class="val">' + policy.charAt(0).toUpperCase() + policy.slice(1) + '</span>' +
-          '<span class="key">Event hash</span><span class="val hash">' + eventHash + '</span>' +
-        '</div>' +
-        '<div class="card-footer">' +
-          '<span class="key">chain:</span><span class="val chain-hash">' + prev + '</span>' +
-          '<span class="key">seq:</span><span class="val">' + seq + '</span>' +
-        '</div>' +
-      '</div>';
-
-    feed.appendChild(card);
-    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    applyFilter(currentFilter);
-  }
-
-  function fireBatch(n) {
-    fireBtn.disabled = true;
-    var count = 0;
-    var timer = setInterval(function() {
-      fireSingle();
-      count++;
-      if (count >= n) { clearInterval(timer); fireBtn.disabled = false; }
-    }, 250);
-  }
-
-  function clearFeed() {
-    stats = { allowed: 0, denied: 0, flagged: 0, pending: 0 };
-    events = [];
-    seq = 0;
-    sAllowed.textContent = '0';
-    sDenied.textContent = '0';
-    sFlagged.textContent = '0';
-    sPending.textContent = '0';
-    sTotal.textContent = '0';
-    var items = feed.querySelectorAll('.audit-item');
-    for (var i = 0; i < items.length; i++) { items[i].remove(); }
-    empty.style.display = 'block';
-    if (autoTimer) { clearInterval(autoTimer); autoTimer = null; autoCheck.checked = false; }
-  }
-
-  function applyFilter(filter) {
-    currentFilter = filter;
-    var items = feed.querySelectorAll('.audit-item');
-    for (var i = 0; i < items.length; i++) {
-      var outcome = items[i].dataset.outcome;
-      items[i].style.display = (filter === 'all' || outcome === filter) ? '' : 'none';
-    }
-  }
-
-  fireBtn.addEventListener('click', fireSingle);
-  flushBtn.addEventListener('click', function() { fireBatch(5); });
-  clearBtn.addEventListener('click', clearFeed);
-
-  filterBtns.forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      filterBtns.forEach(function(b) { b.classList.remove('active'); });
-      btn.classList.add('active');
-      applyFilter(btn.dataset.filter);
-    });
+// Click dots to jump
+document.querySelectorAll('.wt-dot').forEach(function(d) {
+  d.addEventListener('click', function() {
+    wtGoTo(parseInt(this.getAttribute('data-step')));
   });
+});
 
-  autoCheck.addEventListener('change', function() {
-    if (autoCheck.checked) {
-      autoTimer = setInterval(fireSingle, 1800);
-    } else {
-      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
-    }
-  });
-
-  document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT') return;
-    if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); fireSingle(); }
-  });
-
-})();
+// Keyboard nav
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+    e.preventDefault();
+    wtGoTo(currentStep + 1);
+  } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    wtGoTo(currentStep - 1);
+  }
+});
 </script>
 
-<!-- Section: Case Studies -->
+</section>
+
 <section id="casestudy" class="section">
   <div class="container">
     <h2>Case Study: Governing 9 Autonomous Agents with WitnessOS</h2>
