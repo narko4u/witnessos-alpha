@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>WitnessOS — Governed Autonomy for AI Agents</title>
+<title>WitnessOS by Empire Labs — Governed Autonomy for AI Agents</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
@@ -49,6 +49,7 @@ nav .container {
 }
 .nav-brand { font-size: 1.1rem; font-weight: 600; color: #e6edf3; display: flex; align-items: center; gap: .4rem; }
 .nav-brand .sq { color: #6e62ff; }
+.nav-brand .byline { font-weight: 300; font-size: 0.75rem; color: #8b949e; }
 .nav-links { display: flex; gap: .3rem; }
 .nav-links a {
   font-size: .82rem; color: #8b949e; padding: .3rem .7rem; border-radius: 4px;
@@ -416,7 +417,7 @@ footer {
   if(!sessionStorage.getItem('wos_auth')){
     var d=document.createElement('div');
     d.id='pw-gate';
-    d.innerHTML='<style>#pw-gate{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:#0d1117;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif}#pw-gate .card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:48px 40px 40px;max-width:400px;width:90%;text-align:center}#pw-gate .lock{font-size:3rem;margin-bottom:12px}#pw-gate h1{color:#e6edf3;font-size:1.4rem;font-weight:400;margin:0 0 4px}#pw-gate .sub{font-size:.85rem;color:#8b949e;margin:0 0 28px;line-height:1.5}#pw-gate form{display:flex;flex-direction:column;gap:12px}#pw-gate input{padding:14px 16px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#e6edf3;font-size:.95rem;outline:none}#pw-gate input:focus{border-color:#6e62ff}#pw-gate button{padding:14px 24px;border-radius:8px;border:none;background:#6e62ff;color:#fff;font-size:.95rem;font-weight:600;cursor:pointer}#pw-gate button:hover{background:#5a50e0}#pw-gate .error{color:#f85149;font-size:.82rem;margin-top:8px}#pw-gate .footer{font-size:.72rem;color:#484f58;margin-top:24px}#pw-gate .hidden{display:none}</style><div class="card"><div class="lock">🔒</div><h1>WitnessOS</h1><p class="sub">Exclusive investor presentation<br>Enter the password to continue.</p><form onsubmit="return false"><input type="password" id="pw-input" placeholder="Password" autofocus><button id="pw-submit">View Presentation</button><p class="error hidden" id="pw-error">Incorrect password.</p></form><p class="footer">Empire Labs Pty Ltd &middot; Patent Pending</p></div>';
+    d.innerHTML='<style>#pw-gate{position:fixed;top:0;left:0;width:100%;height:100%;z-index:99999;background:#0d1117;display:flex;align-items:center;justify-content:center;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',sans-serif}#pw-gate .card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:48px 40px 40px;max-width:400px;width:90%;text-align:center}#pw-gate .lock{font-size:3rem;margin-bottom:12px}#pw-gate h1{color:#e6edf3;font-size:1.4rem;font-weight:400;margin:0 0 4px}#pw-gate .sub{font-size:.85rem;color:#8b949e;margin:0 0 28px;line-height:1.5}#pw-gate form{display:flex;flex-direction:column;gap:12px}#pw-gate input{padding:14px 16px;border-radius:8px;border:1px solid #30363d;background:#0d1117;color:#e6edf3;font-size:.95rem;outline:none}#pw-gate input:focus{border-color:#6e62ff}#pw-gate button{padding:14px 24px;border-radius:8px;border:none;background:#6e62ff;color:#fff;font-size:.95rem;font-weight:600;cursor:pointer}#pw-gate button:hover{background:#5a50e0}#pw-gate .error{color:#f85149;font-size:.82rem;margin-top:8px}#pw-gate .footer{font-size:.72rem;color:#484f58;margin-top:24px}#pw-gate .hidden{display:none}</style><div class="card"><div class="lock">🔒</div><h1>WitnessOS by Empire Labs</h1><p class="sub">Exclusive investor presentation<br>Enter the password to continue.</p><form onsubmit="return false"><input type="password" id="pw-input" placeholder="Password" autofocus><button id="pw-submit">View Presentation</button><p class="error hidden" id="pw-error">Incorrect password.</p></form><p class="footer">Empire Labs Pty Ltd &middot; Patent Pending</p></div>';
     document.body.appendChild(d);
     document.getElementById('pw-submit').addEventListener('click',function(){
       var pwd=document.getElementById('pw-input').value;
@@ -440,7 +441,7 @@ footer {
 <!-- Nav -->
 <nav>
   <div class="container">
-    <div class="nav-brand"><span class="sq">■</span> WitnessOS</div>
+    <div class="nav-brand"><span class="sq">■</span> WitnessOS <span class="byline">by Empire Labs</span></div>
     <div class="nav-links">
       <a href="./" class="active">Landing Page</a>
       <a href="WITNESSOS-INVESTMENT-PACKAGE.html">Investment Package</a>
