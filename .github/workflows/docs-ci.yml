@@ -1,0 +1,51 @@
+name: docs-ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  docs-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate repository files
+        run: |
+          set -e
+          python3 - <<'PY'
+          import json, pathlib, sys, re
+          try:
+              import yaml
+              HAVE_YAML = True
+          except ImportError:
+              HAVE_YAML = False
+          from html.parser import HTMLParser
+
+          class HtmlCheck(HTMLParser):
+              pass
+
+          ok = True
+          for f in pathlib.Path(".").rglob("*"):
+              if f.is_dir() or ".git" in f.parts:
+                  continue
+              suf = f.suffix.lower()
+              try:
+                  if suf == ".json":
+                      json.loads(f.read_text(errors="ignore"))
+                  elif suf == ".html":
+                      HtmlCheck().feed(f.read_text(errors="ignore"))
+                  elif suf in (".yaml", ".yml") and HAVE_YAML:
+                      yaml.safe_load(f.read_text(errors="ignore"))
+                  elif suf == ".md":
+                      text = f.read_text(errors="ignore")
+                      if text.count("```") % 2 != 0:
+                          print(f"{f}: unbalanced code fences")
+                          ok = False
+              except Exception as e:
+                  print(f"{f}: {e}")
+                  ok = False
+          sys.exit(0 if ok else 1)
+          PY
