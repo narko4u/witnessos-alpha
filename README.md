@@ -1,5 +1,7 @@
 # WitnessOS Alpha — Landing Page
 
+[![OpenSSF Best Practices - Baseline 1](https://www.bestpractices.dev/projects/14145/badge)](https://www.bestpractices.dev/projects/14145)
+
 WitnessOS is the runtime governance layer for autonomous AI agents.
 
 Alpha stage — Private Beta coming soon.
